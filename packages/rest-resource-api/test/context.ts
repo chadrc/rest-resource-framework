@@ -1,5 +1,14 @@
 import * as request from 'supertest';
+import {expect} from 'chai';
 import RestResourceServer from '../src/RestResourceServer';
+import ResourceEngine from '../src/ResourceEngine';
+import ResourcePropType from '../src/ResourcePropType';
+import ResourceModel from '../src/ResourceModel';
+
+const User = new ResourceModel({
+    id: ResourcePropType.Number.NotNull,
+    name: ResourcePropType.String.NotNull.Default(""),
+})
 
 describe("GET root", () => {
     it("Responds OK", (done: any) => {
@@ -7,5 +16,14 @@ describe("GET root", () => {
         request(server.app)
             .get('/')
             .expect(200, done);
+    })
+    
+    it("Basic user model registers and is retrieved", () => {
+        let engine = new ResourceEngine();
+        
+        let user = engine.create(User, {id: 100});
+        
+        expect(user.id).to.equal(100);
+        expect(user.name).to.equal("");
     })
 })
