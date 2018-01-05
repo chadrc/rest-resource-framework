@@ -4,14 +4,26 @@
  *  Has factory methods for creating predefined types.
  **/
 class ResourcePropType {
+    private _jsType: string;
     private _default: any;
     private _notNull: boolean = false;
     
+    constructor(jsType: string) {
+        this._jsType = jsType;
+    }
+    
     public validateValue(value: any): any {
+        let validatedValue = value;
+        
         if (this._default !== undefined && !value && this._notNull) {
-            return this._default;
+            validatedValue = this._default;
         }
-        return value;
+        
+        if (typeof validatedValue !== this._jsType) {
+            throw new TypeError(`'${validatedValue}' is an invalid value for type ${this._jsType}`);
+        }
+        
+        return validatedValue;
     }
     
     public Default(value: any): ResourcePropType {
@@ -25,11 +37,11 @@ class ResourcePropType {
     }
     
     public static get String(): ResourcePropType {
-        return new ResourcePropType();
+        return new ResourcePropType("string");
     }
     
     public static get Number(): ResourcePropType {
-        return new ResourcePropType();
+        return new ResourcePropType("number");
     }
 }
 
