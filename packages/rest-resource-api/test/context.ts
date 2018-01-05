@@ -30,21 +30,4 @@ describe("GET root", () => {
         expect(user.registered).to.equal(false);
         expect(user.birthday).to.equal(null);
     });
-    
-    it("Create User with no id should fail", () => {
-        let engine = new ResourceEngine();
-        let func = () => engine.create(User, {});
-        
-        expect(func).to.throw();
-    });
-    
-    it("Create User with number for name should fail", () => {
-        let engine = new ResourceEngine();
-        let func = () => engine.create(User, {
-            id: 100,
-            name: 1234
-        });
-        
-        expect(func).to.throw();
-    });
 })

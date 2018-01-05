@@ -1,3 +1,5 @@
+import InvalidValueError from './errors/InvalidValueError';
+import MustHaveValueError from './errors/MustHaveValueError';
 
 /**
  *  Types that resource can have as properties. Contains validation logic.
@@ -23,9 +25,14 @@ class ResourcePropType {
             return null;
         }
         
+        if (this._default === undefined && this._notNull === true
+            && (value === undefined || value === null)) {
+                throw new MustHaveValueError();
+        }
+        
         let valType = ResourcePropType.getTypeOf(value);
         if (valType !== this._jsType) {
-            throw new TypeError(`${validatedValue} (type ${valType}) is incompatible with type ${this._jsType}`);
+            throw new InvalidValueError(value, this._jsType);
         }
         
         return validatedValue;
