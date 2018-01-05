@@ -8,6 +8,8 @@ import ResourceModel from '../src/ResourceModel';
 const User = new ResourceModel({
     id: ResourcePropType.Number.NotNull,
     name: ResourcePropType.String.NotNull.Default(""),
+    registered: ResourcePropType.Boolean.NotNull.Default(false),
+    birthday: ResourcePropType.Date.Default(null)
 })
         
 describe("GET root", () => {
@@ -25,6 +27,8 @@ describe("GET root", () => {
         
         expect(user.id).to.equal(100);
         expect(user.name).to.equal("");
+        expect(user.registered).to.equal(false);
+        expect(user.birthday).to.equal(null);
     });
     
     it("Create User with number for name should fail", () => {

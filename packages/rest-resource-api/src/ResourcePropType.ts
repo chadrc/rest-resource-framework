@@ -15,12 +15,17 @@ class ResourcePropType {
     public validateValue(value: any): any {
         let validatedValue = value;
         
-        if (this._default !== undefined && !value && this._notNull) {
-            validatedValue = this._default;
+        if (this._default !== undefined && value === undefined) {
+            return this._default;
         }
         
-        if (typeof validatedValue !== this._jsType) {
-            throw new TypeError(`'${validatedValue}' is an invalid value for type ${this._jsType}`);
+        if (this._notNull === false && value === null) {
+            return null;
+        }
+        
+        let valType = ResourcePropType.getTypeOf(value);
+        if (valType !== this._jsType) {
+            throw new TypeError(`${validatedValue} (type ${valType}) is incompatible with type ${this._jsType}`);
         }
         
         return validatedValue;
@@ -37,11 +42,23 @@ class ResourcePropType {
     }
     
     public static get String(): ResourcePropType {
-        return new ResourcePropType("string");
+        return new ResourcePropType(ResourcePropType.getTypeOf(new String()));
     }
     
     public static get Number(): ResourcePropType {
-        return new ResourcePropType("number");
+        return new ResourcePropType(ResourcePropType.getTypeOf(new Number()));
+    }
+    
+    public static get Boolean(): ResourcePropType {
+        return new ResourcePropType(ResourcePropType.getTypeOf(new Boolean()));
+    }
+    
+    public static get Date(): ResourcePropType {
+        return new ResourcePropType(ResourcePropType.getTypeOf(new Date()));
+    }
+    
+    private static getTypeOf(value: any): string {
+        return Object.prototype.toString.call(value);
     }
 }
 
