@@ -1,10 +1,10 @@
-import ResourcePropType from "./ResourcePropType";
+import ResourceProp from "./ResourceProp";
 
 /**
  *  Container for all information that a resource can have.
  **/
 class ResourceModel {
-    private _properties: { [key:string]: ResourcePropType; };
+    private _properties: { [key:string]: ResourceProp; };
     
     constructor(properties: { [key:string]: any; }) {
         this._properties = properties;

@@ -78,6 +78,14 @@ class ResourceProp {
         return new ResourceProp(ResourceProp.getTypeOf(new Date()));
     }
     
+    public static get Symbol(): ResourceProp {
+        return new ResourceProp(ResourceProp.getTypeOf(Symbol()));
+    }
+    
+    public static get Object(): ResourceProp {
+        return new ResourceProp(ResourceProp.getTypeOf(new Object()));
+    }
+    
     private static getTypeOf(value: any): string {
         return Object.prototype.toString.call(value);
     }

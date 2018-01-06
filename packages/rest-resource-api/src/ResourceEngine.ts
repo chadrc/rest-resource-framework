@@ -1,4 +1,3 @@
-import ResourcePropType from "./ResourcePropType";
 import ResourceModel from "./ResourceModel";
 
 /**

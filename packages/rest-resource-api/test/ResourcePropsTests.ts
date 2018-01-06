@@ -18,11 +18,15 @@ describe("Resource Props", () => {
         let numberFunc = () => ResourceProp.Number.Default("Not a number");
         let booleanFunc = () => ResourceProp.Boolean.Default(100);
         let dateFunc = () => ResourceProp.Date.Default(false);
+        let symbolFunc = () => ResourceProp.Symbol.Default("Not a symbol");
+        let objectFunc = () => ResourceProp.Object.Default(100);
         
         expect(stringFunc).to.throw(InvalidValueError);
         expect(numberFunc).to.throw(InvalidValueError);
         expect(booleanFunc).to.throw(InvalidValueError);
         expect(dateFunc).to.throw(InvalidValueError);
+        expect(symbolFunc).to.throw(InvalidValueError);
+        expect(objectFunc).to.throw(InvalidValueError);
     });
     
     it("Setting null default on NotNull prop throws CannotHaveNullDefaultWithNotNullError", () => {
@@ -53,9 +57,17 @@ describe("Resource Props", () => {
         let dateProp = ResourceProp.Date;
         let dateFunc = () => dateProp.validateValue(false);
         
+        let symbolProp = ResourceProp.Symbol;
+        let symbolFunc = () => symbolProp.validateValue("Not a symbol");
+        
+        let objectProp = ResourceProp.Object;
+        let objectFunc = () => objectProp.validateValue(100);
+        
         expect(stringFunc).to.throw(InvalidValueError);
         expect(numberFunc).to.throw(InvalidValueError);
         expect(booleanFunc).to.throw(InvalidValueError);
         expect(dateFunc).to.throw(InvalidValueError);
+        expect(symbolFunc).to.throw(InvalidValueError);
+        expect(objectFunc).to.throw(InvalidValueError);
     });
 })
