@@ -37,11 +37,13 @@ describe("Resource Props", () => {
         expect(func2).to.throw(CannotHaveNullDefaultWithNotNullError);
     });
     
-    it("Validating undefined on notNull, no default ResourceProp should throw MustHaveValue", () => {
+    it("Validating undefined or null on notNull, no default ResourceProp should throw MustHaveValue", () => {
         let stringProp = ResourceProp.String.NotNull;
-        let func = () => stringProp.validateValue(undefined);
+        let func1 = () => stringProp.validateValue(undefined);
+        let func2 = () => stringProp.validateValue(null);
         
-        expect(func).to.throw(MustHaveValueError);
+        expect(func1).to.throw(MustHaveValueError);
+        expect(func2).to.throw(MustHaveValueError);
     });
     
     it("Validating a non-string with a String resource prop should throw InvalidValue", () => {
@@ -69,5 +71,16 @@ describe("Resource Props", () => {
         expect(dateFunc).to.throw(InvalidValueError);
         expect(symbolFunc).to.throw(InvalidValueError);
         expect(objectFunc).to.throw(InvalidValueError);
+    });
+    
+    it("Using custom class object as Object prop value should be allowed", () => {
+        class CustomClass {
+            private num: number;
+        }
+        
+        let objectProp = ResourceProp.Object.Default(new CustomClass());
+        let val = objectProp.validateValue(undefined);
+        
+        expect(val).to.be.an.instanceOf(CustomClass);
     });
 })
