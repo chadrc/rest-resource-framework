@@ -14,9 +14,15 @@ describe("Resource Props", () => {
     });
     
     it("Setting an incompatible value as default should throw InvalidValue", () => {
-        let func = () => ResourceProp.String.Default(100);
+        let stringFunc = () => ResourceProp.String.Default(100);
+        let numberFunc = () => ResourceProp.Number.Default("Not a number");
+        let booleanFunc = () => ResourceProp.Boolean.Default(100);
+        let dateFunc = () => ResourceProp.Date.Default(false);
         
-        expect(func).to.throw(InvalidValueError);
+        expect(stringFunc).to.throw(InvalidValueError);
+        expect(numberFunc).to.throw(InvalidValueError);
+        expect(booleanFunc).to.throw(InvalidValueError);
+        expect(dateFunc).to.throw(InvalidValueError);
     });
     
     it("Setting null default on NotNull prop throws CannotHaveNullDefaultWithNotNullError", () => {
@@ -36,9 +42,20 @@ describe("Resource Props", () => {
     
     it("Validating a non-string with a String resource prop should throw InvalidValue", () => {
         let stringProp = ResourceProp.String;
+        let stringFunc = () => stringProp.validateValue(100);
         
-        let func = () => stringProp.validateValue(100);
+        let numberProp = ResourceProp.Number;
+        let numberFunc = () => numberProp.validateValue("Not a number");
         
-        expect(func).to.throw(InvalidValueError);
+        let booleanProp = ResourceProp.Boolean;
+        let booleanFunc = () => booleanProp.validateValue(100);
+        
+        let dateProp = ResourceProp.Date;
+        let dateFunc = () => dateProp.validateValue(false);
+        
+        expect(stringFunc).to.throw(InvalidValueError);
+        expect(numberFunc).to.throw(InvalidValueError);
+        expect(booleanFunc).to.throw(InvalidValueError);
+        expect(dateFunc).to.throw(InvalidValueError);
     });
 })
