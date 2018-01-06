@@ -3,7 +3,7 @@ import ResourceModel from "./ResourceModel";
 /**
  *  Contains all logic for manipulating resources
  **/
-class ResourceEngine {
+class ResourceFactory {
     constructor() {
     }
     
@@ -28,4 +28,4 @@ class ResourceEngine {
     }
 }
 
-export default ResourceEngine;
+export default ResourceFactory;

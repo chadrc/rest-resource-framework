@@ -1,7 +1,7 @@
 import * as request from 'supertest';
 import {expect} from 'chai';
 import RestResourceServer from '../src/RestResourceServer';
-import ResourceEngine from '../src/ResourceEngine';
+import ResourceFactory from '../src/ResourceFactory';
 import ResourceProp from '../src/ResourceProp';
 import ResourceModel from '../src/ResourceModel';
 
@@ -21,9 +21,9 @@ describe("GET root", () => {
     });
     
     it("Create basic User model", () => {
-        let engine = new ResourceEngine();
+        let factory = new ResourceFactory();
 
-        let user = engine.create(User, {id: 100});
+        let user = factory.create(User, {id: 100});
         
         expect(user.id).to.equal(100);
         expect(user.name).to.equal("");
