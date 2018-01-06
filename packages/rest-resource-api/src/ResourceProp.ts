@@ -6,7 +6,7 @@ import CannotHaveNullDefaultWithNotNullError from './errors/CannotHaveNullDefaul
  *  Types that resource can have as properties. Contains validation logic.
  *  Has factory methods for creating predefined types.
  **/
-class ResourcePropType {
+class ResourceProp {
     private _jsType: string;
     private _default: any;
     private _notNull: boolean = false;
@@ -36,7 +36,7 @@ class ResourcePropType {
         return value;
     }
     
-    public Default(value: any): ResourcePropType {
+    public Default(value: any): ResourceProp {
         if (!this.isProperType(value) && value !== null) {
             throw new InvalidValueError(value, this._jsType);
         }
@@ -49,7 +49,7 @@ class ResourcePropType {
         return this;
     }
     
-    public get NotNull(): ResourcePropType {
+    public get NotNull(): ResourceProp {
         if (this._default === null) {
             throw new CannotHaveNullDefaultWithNotNullError();
         }
@@ -59,23 +59,23 @@ class ResourcePropType {
     }
     
     private isProperType(value: any): boolean {
-        return ResourcePropType.getTypeOf(value) === this._jsType;
+        return ResourceProp.getTypeOf(value) === this._jsType;
     }
     
-    public static get String(): ResourcePropType {
-        return new ResourcePropType(ResourcePropType.getTypeOf(new String()));
+    public static get String(): ResourceProp {
+        return new ResourceProp(ResourceProp.getTypeOf(new String()));
     }
     
-    public static get Number(): ResourcePropType {
-        return new ResourcePropType(ResourcePropType.getTypeOf(new Number()));
+    public static get Number(): ResourceProp {
+        return new ResourceProp(ResourceProp.getTypeOf(new Number()));
     }
     
-    public static get Boolean(): ResourcePropType {
-        return new ResourcePropType(ResourcePropType.getTypeOf(new Boolean()));
+    public static get Boolean(): ResourceProp {
+        return new ResourceProp(ResourceProp.getTypeOf(new Boolean()));
     }
     
-    public static get Date(): ResourcePropType {
-        return new ResourcePropType(ResourcePropType.getTypeOf(new Date()));
+    public static get Date(): ResourceProp {
+        return new ResourceProp(ResourceProp.getTypeOf(new Date()));
     }
     
     private static getTypeOf(value: any): string {
@@ -83,4 +83,4 @@ class ResourcePropType {
     }
 }
 
-export default ResourcePropType;
+export default ResourceProp;

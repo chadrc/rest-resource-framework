@@ -2,14 +2,14 @@ import * as request from 'supertest';
 import {expect} from 'chai';
 import RestResourceServer from '../src/RestResourceServer';
 import ResourceEngine from '../src/ResourceEngine';
-import ResourcePropType from '../src/ResourcePropType';
+import ResourceProp from '../src/ResourceProp';
 import ResourceModel from '../src/ResourceModel';
 
 const User = new ResourceModel({
-    id: ResourcePropType.Number.NotNull,
-    name: ResourcePropType.String.NotNull.Default(""),
-    registered: ResourcePropType.Boolean.NotNull.Default(false),
-    birthday: ResourcePropType.Date.Default(null)
+    id: ResourceProp.Number.NotNull,
+    name: ResourceProp.String.NotNull.Default(""),
+    registered: ResourceProp.Boolean.NotNull.Default(false),
+    birthday: ResourceProp.Date.Default(null)
 })
         
 describe("GET root", () => {
