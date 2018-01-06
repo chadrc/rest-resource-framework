@@ -1,5 +1,6 @@
 import InvalidValueError from './errors/InvalidValueError';
 import MustHaveValueError from './errors/MustHaveValueError';
+import CannotHaveNullDefaultWithNotNullError from './errors/CannotHaveNullDefaultWithNotNullError';
 
 /**
  *  Types that resource can have as properties. Contains validation logic.
@@ -15,8 +16,6 @@ class ResourcePropType {
     }
     
     public validateValue(value: any): any {
-        let validatedValue = value;
-        
         if (this._default !== undefined && value === undefined) {
             return this._default;
         }
@@ -30,22 +29,37 @@ class ResourcePropType {
                 throw new MustHaveValueError();
         }
         
-        let valType = ResourcePropType.getTypeOf(value);
-        if (valType !== this._jsType) {
+        if (!this.isProperType(value)) {
             throw new InvalidValueError(value, this._jsType);
         }
         
-        return validatedValue;
+        return value;
     }
     
     public Default(value: any): ResourcePropType {
+        if (!this.isProperType(value) && value !== null) {
+            throw new InvalidValueError(value, this._jsType);
+        }
+        
+        if (value === null && this._notNull === true) {
+            throw new CannotHaveNullDefaultWithNotNullError();
+        }
+        
         this._default = value;
         return this;
     }
     
     public get NotNull(): ResourcePropType {
+        if (this._default === null) {
+            throw new CannotHaveNullDefaultWithNotNullError();
+        }
+        
         this._notNull = true;
         return this;
+    }
+    
+    private isProperType(value: any): boolean {
+        return ResourcePropType.getTypeOf(value) === this._jsType;
     }
     
     public static get String(): ResourcePropType {

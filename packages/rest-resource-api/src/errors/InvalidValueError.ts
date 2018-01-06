@@ -9,7 +9,7 @@ class InvalidValueError extends Error {
         this.name = "InvalidValueError";
         this.__proto__ = InvalidValueError.prototype;
         this._value = value;
-        this._expectedType = value;
+        this._expectedType = expectedType;
     }
     
     get value() {
