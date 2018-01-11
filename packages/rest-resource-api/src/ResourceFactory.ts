@@ -1,4 +1,5 @@
 import ResourceModel from "./ResourceModel";
+import InvalidModelArgs from './errors/InvalidModelArgs';
 
 /**
  *  Contains all logic for manipulating resources
@@ -13,14 +14,16 @@ class ResourceFactory {
         let properties = model.properties;
         let keys = Object.keys(properties);
         
+        let errors = [];
         for (let key of keys) {
             let prop = properties[key];
-            if (!prop) {
-                throw new Error(`${name} does not have ${prop} property.`)
-            }
             let value = args[key];
-            
-            let validatedValue = prop.validateValue(value);
+            let validatedValue;
+            try {
+                validatedValue = prop.validateValue(value);
+            } catch (err) {
+                throw new InvalidModelArgs();
+            }
             resource[key] = validatedValue;
         }
         
